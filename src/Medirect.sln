@@ -9,17 +9,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{24
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Exchange", "Exchange", "{4CF33648-5B12-4612-BC8F-6B0220026978}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exchange.Domain", "services\Exchange\Exchange.Domain\Exchange.Domain.csproj", "{46EC4C84-B859-434C-B712-E4B67F002D7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exchange.Domain", "services\Exchange\Exchange.Domain\Exchange.Domain.csproj", "{46EC4C84-B859-434C-B712-E4B67F002D7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exchange.Infrastructure", "services\Exchange\Exchange.Infrastructure\Exchange.Infrastructure.csproj", "{0677DD7C-4C85-47C1-8F53-794ED568AC3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exchange.Infrastructure", "services\Exchange\Exchange.Infrastructure\Exchange.Infrastructure.csproj", "{0677DD7C-4C85-47C1-8F53-794ED568AC3F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{37133AAD-50F9-4222-9AEC-FD6F595AD73E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exchange.FunctionalTests", "services\Exchange\Exchange.FunctionalTests\Exchange.FunctionalTests.csproj", "{6FF49CA4-D518-4003-BE12-A37D980FCAEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exchange.FunctionalTests", "services\Exchange\Exchange.FunctionalTests\Exchange.FunctionalTests.csproj", "{6FF49CA4-D518-4003-BE12-A37D980FCAEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exchange.UnitTests", "services\Exchange\Exchange.UnitTests\Exchange.UnitTests.csproj", "{3B7D40E5-4335-4DD1-9F4C-78F531CE391B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exchange.UnitTests", "services\Exchange\Exchange.UnitTests\Exchange.UnitTests.csproj", "{3B7D40E5-4335-4DD1-9F4C-78F531CE391B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exchange.API", "services\Exchange\Exchange.API\Exchange.API.csproj", "{8BD67A1C-A31D-4C74-B48F-D4F89234C2E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exchange.API", "services\Exchange\Exchange.API\Exchange.API.csproj", "{8BD67A1C-A31D-4C74-B48F-D4F89234C2E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exchange.Application", "services\Exchange\Exchange.Application\Exchange.Application.csproj", "{0423D6D6-2BEB-4EBD-9219-F5D027508B6E}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{33AD219B-673A-408E-A5E6-79B6CDC2CD18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +51,14 @@ Global
 		{8BD67A1C-A31D-4C74-B48F-D4F89234C2E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BD67A1C-A31D-4C74-B48F-D4F89234C2E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BD67A1C-A31D-4C74-B48F-D4F89234C2E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0423D6D6-2BEB-4EBD-9219-F5D027508B6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0423D6D6-2BEB-4EBD-9219-F5D027508B6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0423D6D6-2BEB-4EBD-9219-F5D027508B6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0423D6D6-2BEB-4EBD-9219-F5D027508B6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33AD219B-673A-408E-A5E6-79B6CDC2CD18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33AD219B-673A-408E-A5E6-79B6CDC2CD18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33AD219B-673A-408E-A5E6-79B6CDC2CD18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33AD219B-673A-408E-A5E6-79B6CDC2CD18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +72,7 @@ Global
 		{6FF49CA4-D518-4003-BE12-A37D980FCAEC} = {37133AAD-50F9-4222-9AEC-FD6F595AD73E}
 		{3B7D40E5-4335-4DD1-9F4C-78F531CE391B} = {37133AAD-50F9-4222-9AEC-FD6F595AD73E}
 		{8BD67A1C-A31D-4C74-B48F-D4F89234C2E3} = {4CF33648-5B12-4612-BC8F-6B0220026978}
+		{0423D6D6-2BEB-4EBD-9219-F5D027508B6E} = {4CF33648-5B12-4612-BC8F-6B0220026978}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8548415E-3DA9-49E1-9C47-BC1F61CF8B21}

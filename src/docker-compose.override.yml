@@ -1,0 +1,38 @@
+version: '3.4'
+
+services:
+  exchangedb:
+    container_name: exchangedb
+    environment:
+      SA_PASSWORD: "Thynk1234"
+      ACCEPT_EULA: "Y"
+    restart: always
+    ports:
+      - "5433:1433"
+  exchange.api:
+    environment:
+     - ASPNETCORE_ENVIRONMENT=Development
+     - "RabbitMq:Hostname=rabbitmq"
+     - "RabbitMq:UserName=guest"
+     - "RabbitMq:Password=guest"
+     - "RabbitMq:Port=5672"
+     - "RabbitMq:SubscriptionClientName=HealthData.API"
+    ports:
+      - "8000:80"
+    depends_on:
+      - exchangedb
+      - rabbitmq
+      
+  rabbitmq:
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "15670:5672"
+      - "15672:15672"
+volumes:
+  medirect-sqldata:
+    external: false
+networks:
+  medirect-network:
+    name: medirect-network
+    
