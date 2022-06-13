@@ -1,6 +1,9 @@
 ﻿
 
 using Microsoft.OpenApi.Models;
+using RabbitMQ.Client;
+using RabbitMQEventbus;
+using RabbitMQEventbus.RabbitMQ;
 
 namespace Exchange.API.Extensions
 {
@@ -41,6 +44,39 @@ namespace Exchange.API.Extensions
                 });
             });
 
+            return services;
+        }
+        public static IServiceCollection AddRabbitMQ(this IServiceCollection services,IConfiguration Configuration)
+        {
+            services.AddSingleton<IRabbitMQPersistentConnection>(s => {
+                var logger = s.GetRequiredService<ILogger<RabbitMQPersistentConnection>>();
+                var factory = new ConnectionFactory()
+                {
+                    HostName = Configuration["RabbitMq:Hostname"],
+                    DispatchConsumersAsync = true,
+                    UserName = Configuration["RabbitMq:UserName"],
+                    Password = Configuration["RabbitMq:Password"],
+                    Port = int.Parse(Configuration["RabbitMq:Port"])
+                };
+                var retryCount = 5;
+                return new RabbitMQPersistentConnection(factory, logger, retryCount);
+            });
+            services.AddSingleton<IEventBus, RabbitMQEventBus>(sp =>
+            {
+                var subscriptionClientName = Configuration["RabbitMq:SubscriptionClientName"];
+                var rabbitMQPersistentConnection = sp.GetRequiredService<IRabbitMQPersistentConnection>();
+                var logger = sp.GetRequiredService<ILogger<RabbitMQEventBus>>();
+                var eventBusSubcriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
+                var ilifeTimeScope = sp.GetRequiredService<ILifetimeScope>();
+                var retryCount = 5;
+                if (!string.IsNullOrEmpty(Configuration["EventBusRetryCount"]))
+                {
+                    retryCount = int.Parse(Configuration["EventBusRetryCount"]);
+                }
+
+                return new RabbitMQEventBus(rabbitMQPersistentConnection, logger, eventBusSubcriptionsManager, ilifeTimeScope, subscriptionClientName, retryCount);
+            });
+            services.AddSingleton<IEventBusSubscriptionsManager, EventBusSubscriptionsManager>();
             return services;
         }
 

@@ -55,5 +55,11 @@
                 return false;
             return account.Balance > amount;
         }
+
+        public async Task<Account> FindByIdandNameAsync(string name, string currencyName)
+        {
+            var account = await _context.Account.Where(a=>a.FullName == name && a.Currency.Name == currencyName).FirstOrDefaultAsync();
+            return account;
+        }
     }
 }

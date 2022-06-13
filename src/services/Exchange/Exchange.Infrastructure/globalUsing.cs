@@ -3,7 +3,7 @@ global using Microsoft.EntityFrameworkCore.Design;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Microsoft.EntityFrameworkCore.Storage;
 global using Microsoft.EntityFrameworkCore;
-global using Exchange.Domain;
+global using Microsoft.Extensions.Logging;
 global using System.Data;
 global using System.Linq;
 global using System.Threading.Tasks;

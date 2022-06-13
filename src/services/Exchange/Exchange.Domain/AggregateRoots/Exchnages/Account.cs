@@ -13,5 +13,9 @@
         FullName = fullName;
         Balance = balance;
     }
+    public void UpdateBalance(decimal amount)
+    {
+        Balance += amount;
+    }
 }
 

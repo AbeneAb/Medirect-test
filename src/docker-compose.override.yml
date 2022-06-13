@@ -22,6 +22,12 @@ services:
     depends_on:
       - exchangedb
       - rabbitmq
+      - exchangecache
+  exchangecache:
+    ports:
+      - "6379:6379"
+    volumes:
+      - medirect-exchangecache:/data
       
   rabbitmq:
     container_name: rabbitmq
@@ -32,6 +38,9 @@ services:
 volumes:
   medirect-sqldata:
     external: false
+  medirect-exchangecache:
+    external: false
+    
 networks:
   medirect-network:
     name: medirect-network

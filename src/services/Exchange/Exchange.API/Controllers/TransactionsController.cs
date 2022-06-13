@@ -9,23 +9,24 @@ namespace Exchange.API.Controllers
         private readonly IMediator _mediator;
         private readonly ILogger<TransactionsController> _logger;
         private readonly ITransactionQuery _transactionQuery;
-        public TransactionsController(IMediator mediator,ILogger<TransactionsController> logger)
+        public TransactionsController(IMediator mediator,ILogger<TransactionsController> logger,ITransactionQuery transactionQuery)
         {
             _mediator = mediator;
             _logger = logger;
+            _transactionQuery = transactionQuery;
         }
         [Route("create")]
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> CreateTransaction(CreateTransactionCommand command, [FromHeader(Name = "x-requestid")] string requestId) 
+        public async Task<IActionResult> CreateTransaction(CreateTransactionCommand command) 
         {
             var result = await _mediator.Send(command);
             if (!result)
                 return BadRequest();
             return Ok();
         }
-        [Route("{transactionId:int}")]
+        [Route("transaction/{transactionId:int}")]
         [HttpGet]
         [ProducesResponseType(typeof(TransactionSummaryViewModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -42,7 +43,7 @@ namespace Exchange.API.Controllers
                 return NotFound();
             }
         }
-        [Route("{buyerId:int}")]
+        [Route("buyer/{buyerId:int}")]
         [HttpGet]
         [ProducesResponseType(typeof(TransactionSummaryViewModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -50,8 +51,9 @@ namespace Exchange.API.Controllers
         {
             try
             {
-                var order = await _transactionQuery.GetOrdersFromUserAsync(buyerId);
+                var order = await _transactionQuery.GetTransactionFromUserAsync(buyerId);
 
+              
                 return Ok(order);
             }
             catch
