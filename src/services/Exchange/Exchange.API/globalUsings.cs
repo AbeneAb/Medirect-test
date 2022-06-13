@@ -13,8 +13,13 @@ global using Exchange.Application.Behavoiur;
 global using Exchange.Application.Commands;
 global using Exchange.Application.DomainEventHandlers;
 global using Exchange.Infrastructure.Repositories;
+global using Exchange.API;
+global using Exchange.API.BackgroundTask;
 global using Microsoft.EntityFrameworkCore;
 global using Exchange.API.Filters;
 global using MediatR;
 global using Exchange.Application.Queries;
+global using Exchange.Application.IntegrationEvent.EventsHandler;
+global using RabbitMQEventbus.Abstractions;
+global using System.Reflection;
 

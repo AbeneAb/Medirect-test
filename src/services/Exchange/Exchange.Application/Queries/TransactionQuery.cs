@@ -1,7 +1,4 @@
-﻿using Dapper;
-using Microsoft.Data.SqlClient;
-
-namespace Exchange.Application.Queries
+﻿namespace Exchange.Application.Queries
 {
     public class TransactionQuery : ITransactionQuery
     {
@@ -11,12 +8,29 @@ namespace Exchange.Application.Queries
             _connectionString = connectionString;
         }
 
-        public async Task<IEnumerable<TransactionSummaryViewModel>> GetOrdersFromUserAsync(int userId)
+        public async Task<bool> CanMakeTransaction(int buyerId)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                return await connection.QueryAsync<TransactionSummaryViewModel>("");
+                var result= await connection.QueryAsync<int>(@"select COUNT(t.[Id]) as value from exchange.transactions as t  where t.[CreatedDate] <= DATEADD(HOUR, -1, GETUTCDATE()) and  t.[_buyerId] = @buyerId", new {buyerId});
+                return result.FirstOrDefault() < 10;
+            }
+        }
+
+        public async Task<IEnumerable<TransactionSummaryViewModel>> GetTransactionFromUserAsync(int userId)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                return await connection.QueryAsync<TransactionSummaryViewModel>(@"select t.[Id] as TransactionId,
+                 t.CreatedDate as TransactionDate,a.FullName, ts.[Name] as Status,t.FromCurrency_Name as FromCurrency ,t.ToCurrency_Name as ToCurrency
+                ,t.Amount as Amount,t.ExchangeRate as Rate, t.[Converted] as ConvertedAmount,t.[Description]
+                    FROM exchange.transactions t
+                    inner JOIN exchange.TransactionStatus ts on ts.[id] = t.[TransactionStatus]
+					inner join exchange.Accounts as a on t.[_buyerId] = a.Id
+                    WHERE t.[_buyerId] = @userId", new { userId });
+                
             }
         }
 
@@ -26,11 +40,12 @@ namespace Exchange.Application.Queries
             {
                 connection.Open();
                 var result = await connection.QueryAsync<TransactionSummaryViewModel>(@"select t.[Id] as TransactionId,
-                 t.CreatedDate as TransactionDate, o.Description as Description,t.FromCurrency_Name as FromCurrency ,t.ToCurrency_Name as ToCurrency
-                ,t.Amount as Amount,t.ExchangeRate as Rate,  ts.Name as status
+                 t.CreatedDate as TransactionDate,a.FullName, ts.[Name] as Status,t.FromCurrency_Name as FromCurrency ,t.ToCurrency_Name as ToCurrency
+                ,t.Amount as Amount,t.ExchangeRate as Rate, t.[Converted] as ConvertedAmount,t.[Description]
                     FROM exchange.transactions t
-                    LEFT JOIN exchange.TransactionStatus ts on o.TransactionStatus = ts.Id
-                    WHERE o.Id = @id", new { id });
+                    inner JOIN exchange.TransactionStatus ts on ts.[id] = t.[TransactionStatus]
+					inner join exchange.Accounts as a on t.[_buyerId] = a.Id
+                    WHERE t.[Id] = @id", new { id });
                 return result.FirstOrDefault();
             }
         }

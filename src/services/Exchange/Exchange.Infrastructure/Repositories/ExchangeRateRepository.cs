@@ -29,13 +29,13 @@ namespace Exchange.Infrastructure.Repositories
 
             return JsonSerializer.Deserialize<ExchangeRate>(data, new JsonSerializerOptions
             {
-                PropertyNameCaseInsensitive = true
+                PropertyNameCaseInsensitive = false
             });
         }
 
         public async Task<bool> UpdateExchangeRate(ExchangeRate exchangeRate)
         {
-            var created = await _database.StringSetAsync(exchangeRate.Currency.Name, JsonSerializer.Serialize(exchangeRate));
+            var created = await _database.StringSetAsync( CurrencyType.FromDisplayName(exchangeRate.Currency.Name).Id, JsonSerializer.Serialize(exchangeRate));
 
             if (!created)
             {

@@ -5,7 +5,14 @@
     public static TransactionStatus BalanceConfirmed = new TransactionStatus(3,nameof(BalanceConfirmed).ToLowerInvariant());
     public static TransactionStatus Converted = new TransactionStatus(4, nameof(Converted).ToLowerInvariant());
     public static TransactionStatus Cancelled = new TransactionStatus(5, nameof(Cancelled).ToLowerInvariant());
+  
     public TransactionStatus(int id, string name) : base(id, name)
     {
     }
+    public static IEnumerable<TransactionStatus> GetAll() =>
+    typeof(TransactionStatus).GetFields(BindingFlags.Public |
+                        BindingFlags.Static |
+                        BindingFlags.DeclaredOnly)
+                .Select(f => f.GetValue(null))
+                .Cast<TransactionStatus>();
 }

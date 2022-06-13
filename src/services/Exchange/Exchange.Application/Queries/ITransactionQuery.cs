@@ -3,6 +3,7 @@
     public interface ITransactionQuery
     {
         Task<TransactionSummaryViewModel> GetTransactionsAsync(int id);
-        Task<IEnumerable<TransactionSummaryViewModel>> GetOrdersFromUserAsync(int userId);
+        Task<IEnumerable<TransactionSummaryViewModel>> GetTransactionFromUserAsync(int userId);
+        Task<bool> CanMakeTransaction(int buyerId);
     }
 }
