@@ -6,9 +6,11 @@
     public int GetBuyerId => _buyerId;
     private int _buyerId;
     private decimal _amount;
+    public decimal GetAmount => _amount;
     private decimal _exchangeRate;
     private string _description;
     private decimal _converted;
+    public decimal Converted => _converted;
     public Currency FromCurrency { get; private set; }
     public Currency ToCurrency { get; private set; }
     public TransactionStatus TransactionStatus { get; private set; }
@@ -26,6 +28,8 @@
         _buyerId = buyerId;
         FromCurrency = new Currency(CurrencyType.FromValue(fromCurrency));
         ToCurrency = new Currency(CurrencyType.FromValue(toCurrency));
+        _createdDate = DateTime.UtcNow;
+        _transactionStatus = TransactionStatus.Submitted.Id;
         AddTransactionStartedDomainEvent(FromCurrency, ToCurrency,buyerId, buyerAccount);
     }
     private void AddTransactionStartedDomainEvent(Currency from, Currency to, int buyerAccount,int buyerId)

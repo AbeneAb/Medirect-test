@@ -1,11 +1,3 @@
-
-
-
-
-
-
-using Exchange.API;
-
 var configuration = GetConfiguration();
 var builder = WebApplication.CreateBuilder(args);
 Log.Logger = CreateSerilogLogger(configuration);
@@ -19,8 +11,8 @@ try
     host?.MigrateDatabase<ExchangeContext>((context, services) =>
     {
         var env = services.GetService<IWebHostEnvironment>();
-        //var logger = services.GetService<ILogger<ExchangeContextSeed>>();
-        //ExchangeContextSeed.SeedAsync(context, logger).Wait();
+        var logger = services.GetService<ILogger<ExchnageContextSeed>>();
+        new ExchnageContextSeed().SeedAsync(context, logger).Wait();
     });
     Log.Information("Starting host ...");
     host.Run();

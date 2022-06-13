@@ -29,7 +29,6 @@ namespace Exchange.Application.Commands
             var transaction = new Transaction(buyer.Id, buyer.Id, request.FromCurrency, request.ToCurrency,request.Amount,rate.Rate,exchange);
             _transactionRepository.Add(transaction);
             _logger.LogInformation("----- Creating Transaction - Transaction: {@Transaction}", transaction);
-
             return await _transactionRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }
     }

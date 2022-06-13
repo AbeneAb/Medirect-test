@@ -7,10 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Queries\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="FluentValidation" Version="11.0.1" />
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
@@ -18,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\MembershipManagement\src\EventBus\RabbitMQEventbus\RabbitMQEventbus.csproj" />
     <ProjectReference Include="..\Exchange.Domain\Exchange.Domain.csproj" />
     <ProjectReference Include="..\Exchange.Infrastructure\Exchange.Infrastructure.csproj" />
   </ItemGroup>

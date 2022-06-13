@@ -8,10 +8,10 @@ namespace Exchange.Application.Commands
 {
     public class CreateTransactionCommandValidator : AbstractValidator<CreateTransactionCommand>
     {
-        private readonly ITransactionRepository _transactionRepository;
-        public CreateTransactionCommandValidator(ITransactionRepository transactionRepository)
+        private readonly ITransactionQuery _transactionRepository;
+        public CreateTransactionCommandValidator(ITransactionQuery transactionQuery)
         {
-            _transactionRepository = transactionRepository;
+            _transactionRepository = transactionQuery;
             RuleFor(c=>c.BuyerId).NotEmpty();
             RuleFor(c=>c.Amount).NotEmpty().GreaterThan(0).WithMessage("Amount should be non-negative and greater than zero");
             RuleFor(c => c.ToCurrency).NotEqual(c => c.FromCurrency).WithMessage("Currency has to be different!");

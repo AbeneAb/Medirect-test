@@ -1,6 +1,10 @@
 ﻿
 
 
+
+using Exchange.Application.IntegrationEvent.Events;
+using StackExchange.Redis;
+
 namespace Exchange.API
 {
     public class Startup
@@ -15,13 +19,21 @@ namespace Exchange.API
         {
             services.AddDbContext(Configuration)
                 .AddCustomMVC()
-                .AddCustomSwagger();
+                .AddCustomSwagger()
+                .AddRabbitMQ(Configuration)
+                .AddHostedService<CurrencyLoader>();
+            services.AddSingleton<ConnectionMultiplexer>(sp =>
+            {
+                var configuration = ConfigurationOptions.Parse(Configuration["RedisConnectionString"], true);
+
+                return ConnectionMultiplexer.Connect(configuration);
+            });
+
             var container = new ContainerBuilder();
             container.Populate(services);
 
             container.RegisterModule(new MediatorModule());
-            container.RegisterModule(new InfrastructureModule());
-
+            container.RegisterModule(new InfrastructureModule(Configuration["ConnectionStrings:ExchangeConnectionString"]));
             return new AutofacServiceProvider(container.Build());
         }
        
@@ -46,7 +58,16 @@ namespace Exchange.API
                 //endpoints.MapHub<NotificationsHub>("/hub/notificationhub");
 
             });
-            //ConfigureEventBus(app);
+            ConfigureEventBus(app);
+        }
+        private void ConfigureEventBus(IApplicationBuilder app)
+        {
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+            eventBus.Subscribe<TransactionAwaitingValidationIntegrationEvent, IIntegrationEventHandler<TransactionAwaitingValidationIntegrationEvent>>();
+            eventBus.Subscribe<TransactionBalanceConfirmedIntegrationEvent,IIntegrationEventHandler<TransactionBalanceConfirmedIntegrationEvent>>();
+            eventBus.Subscribe<TransactionCancelledIntegrationEvent,IIntegrationEventHandler<TransactionCancelledIntegrationEvent>>();  
+            eventBus.Subscribe<TransactionConvertedIntegrationEvent,IIntegrationEventHandler<TransactionConvertedIntegrationEvent>>();
+
         }
 
     }

@@ -6,6 +6,8 @@ services:
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
+  exchangecache:
+    image: redis:alpine
 
   exchange.api:
     image: ${DOCKER_REGISTRY-}exchangeapi

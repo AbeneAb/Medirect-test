@@ -20,11 +20,15 @@ namespace Exchange.Application.Behavoiur
 
             _logger.LogInformation("----- Validating command {CommandType}", typeName);
 
-            var failures = _validators
-                .Select(v => v.Validate(request))
-                .SelectMany(result => result.Errors)
-                .Where(error => error != null)
-                .ToList();
+            //var failures = _validators
+            //    .Select(v => v.Validate(request))
+            //    .SelectMany(result => result.Errors)
+            //    .Where(error => error != null)
+            //    .ToList();
+            var context = new ValidationContext<TRequest>(request);
+
+            var validationResults = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
+            var failures = validationResults.SelectMany(r => r.Errors).Where(f => f != null).ToList();
 
             if (failures.Any())
             {

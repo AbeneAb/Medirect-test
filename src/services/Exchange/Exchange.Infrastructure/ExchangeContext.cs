@@ -35,14 +35,12 @@ namespace Exchange.Infrastructure
         }
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            // Dispatch Domain Events collection. 
           
-            await _mediator.DispatchDomainEventsAsync(this);
-
-            // After executing this line all the changes (from the Command Handler and Domain Event Handlers) 
+            // After executing this line all the changes
             // performed through the DbContext will be committed
             var result = await base.SaveChangesAsync(cancellationToken);
-
+            // Dispatch Domain Events collection. 
+            await _mediator.DispatchDomainEventsAsync(this);
             return true;
         }
 
