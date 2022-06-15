@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Moq;
+using Xunit;
 
 namespace Exchange.UnitTests.Application
 {
-    internal class NewTransactionCommandHandlerTest
+    public class NewTransactionCommandHandlerTest
     {
+        private readonly Mock<ITransactionRepository> _transactionRepositoryMock;
+        public NewTransactionCommandHandlerTest()
+        {
+            _transactionRepositoryMock = new Mock<ITransactionRepository>();
+        }
+        [Fact]
+        public void Handle_throws_exception_when_no_Buyer() 
+        {
+
+        }
     }
 }

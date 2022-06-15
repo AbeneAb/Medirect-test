@@ -43,6 +43,15 @@ namespace Exchange.API.Extensions
                     Description = "The Exchange Service HTTP API"
                 });
             });
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder
+                    .SetIsOriginAllowed((host) => true)
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
 
             return services;
         }
