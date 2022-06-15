@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="6.3.0" />
+    <PackageReference Include="Autofac" Version="6.4.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.5">
       <PrivateAssets>all</PrivateAssets>
@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\MembershipManagement\src\EventBus\RabbitMQEventbus\RabbitMQEventbus.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlock\RabbitMQEventbus\RabbitMQEventbus.csproj" />
     <ProjectReference Include="..\Exchange.Application\Exchange.Application.csproj" />
     <ProjectReference Include="..\Exchange.Domain\Exchange.Domain.csproj" />
     <ProjectReference Include="..\Exchange.Infrastructure\Exchange.Infrastructure.csproj" />

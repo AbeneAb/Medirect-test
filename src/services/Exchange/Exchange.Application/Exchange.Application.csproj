@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\MembershipManagement\src\EventBus\RabbitMQEventbus\RabbitMQEventbus.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlock\RabbitMQEventbus\RabbitMQEventbus.csproj" />
     <ProjectReference Include="..\Exchange.Domain\Exchange.Domain.csproj" />
     <ProjectReference Include="..\Exchange.Infrastructure\Exchange.Infrastructure.csproj" />
   </ItemGroup>
